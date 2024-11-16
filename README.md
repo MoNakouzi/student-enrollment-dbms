@@ -1,36 +1,154 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Student Enrollment DBMS
 
-## Getting Started
+This is a **Student Enrollment Database Management System** project built using **Next.js 14** with the **App Router** and **TypeScript**, connected to an **Oracle 12c** database. The application allows users to view, edit, add, and delete records in our 22 tables, while ensuring seamless integration with a previously created database.
 
-First, run the development server:
+## Table of Contents
+1. [File Structure](#file-structure)
+2. [How It Works](#how-it-works)
+3. [Prerequisites](#prerequisites)
+4. [Setup Instructions](#setup-instructions)
+5. [Usage](#usage)
+6. [License](#license)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## File Structure
+
+```plaintext
+student-enrollment-dbms/
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── get-students/
+│   │   │   │   └── route.ts       # API for fetching students
+│   │   │   ├── add-student/
+│   │   │   │   └── route.ts       # API for adding a student
+│   │   │   ├── update-student/
+│   │   │   │   └── route.ts       # API for updating a student
+│   │   │   ├── delete-student/
+│   │   │   │   └── route.ts       # API for deleting a student
+|   |   |   ├── ADD THE REST/
+│   │   │   │   └── route.ts       # REMAINING API CALLS
+│   │   ├── students/
+│   │   │   └── page.tsx           # Main page for displaying and interacting with the student table
+│   ├── components/
+│   │   └── StudentTable.tsx       # Component for rendering the student table
+│   ├── lib/
+│   │   └── db.ts                  # Database connection logic
+├── .env                           # Environment variables for database configuration
+├── README.md                      # Documentation for the project
+├── package.json                   # Dependencies and scripts
+├── tsconfig.json                  # TypeScript configuration
+└── next.config.js                 # Next.js configuration
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How it Works
+This application connects to an **Oracle 12c** database and provides a user-friendly interface for managing the `Student` table. The database and schema were created in previous assignments. 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Core Features:
+- **View Tables**: Displays all records in a selected table.
+- **Add Entries**: Allows adding a new entry to any table in the database.
+- **Edit Entries**: Enables editing individual records in a table.
+- **Delete Entries**: Provides the ability to delete records.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Integration with Oracle 12c:
+- The application uses the `node-oracledb` library to connect to the database.
+- Connection credentials and settings are stored in the `.env` file.
+- The database operations are performed via API endpoints.
 
-## Learn More
+### Networking:
+- The application requires `OpenVPN GUI` to be active to connect to the remote Oracle database server.
+- Ensure `OpenVPN GUI` is configured and running to execute database queries.
 
-To learn more about Next.js, take a look at the following resources:
+## Prerequisites
+1. **Oracle 12c Database**:
+   - Database must be set up as per previous assignments with the required schema and tables.
+   
+2. **OpenVPN**:
+   - Must be activated to connect to the remote Oracle server.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Node.js and npm**:
+   - Install Node.js (version 18 or above).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Oracle Instant Client** (if using Thick Mode):
+   - Install the Oracle Instant Client libraries and configure the `libDir` path in `db.ts`.
+   - We are using Thin Mode in this application
 
-## Deploy on Vercel
+## Setup Instructions
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To set up and run this project, follow these steps:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the repository:**
+
+```
+git clone https://github.com/your-username/student-enrollment-dbms.git 
+cd student-enrollment-dbms
+```
+
+
+2. **Install dependencies:**
+
+```
+npm install
+```
+
+3. **Set up your `.env` file:**
+
+Create a `.env` file in the root directory with the following values:
+
+```
+ORACLE_USER=your_username
+ORACLE_PASSWORD=your_password 
+ORACLE_CONNECTION_STRING=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=<HOSTNAME>)(Port=<PORT>))(CONNECT_DATA=(SID=<SID>)))
+
+NODE_ORACLEDB_DISABLE_OCI_ENCRYPTION=true
+```
+
+Replace `your_username`, `your_password`, `HOSTNAME`, `PORT`, and `SID` with your database credentials.
+
+4. **Install the Oracle Instant Client (if required, skipped in our case):**
+
+- Download and install the [Oracle Instant Client](https://www.oracle.com/database/technologies/instant-client.html) for your system.
+- Set the `libDir` path in your `db.ts` file to the location of the Instant Client.
+
+5. **Ensure OpenVPN is running:**
+
+- OpenVPN must be active and connected to access the Oracle database. Verify your connection before running the application.
+
+6. **Start the development server:**
+
+```
+npm run dev
+```
+
+7. **Access the application:**
+
+Open your browser and navigate to `http://localhost:3000`.
+
+---
+
+## Usage
+
+1. **View Students:**
+- On the main page, view the complete list of students fetched from the database.
+
+2. **Add Students:**
+- Use the provided form to add new students to the `Student` table.
+
+3. **Edit Students:**
+- Click the "Edit" button on a student row to modify their information.
+
+4. **Delete Students:**
+- Click the "Delete" button on a student row to remove them from the table.
+
+~***ADD REMAINING UTILITIES HERE AS THEY ARE IMPLEMENTED...***~
+
+5. **Database Connection:**
+- The application uses the Oracle 12c database created in previous assignments and supports all CRUD operations on the `Student` table.
+- Ensure your OpenVPN is active for the application to execute database queries properly.
+
+---
+
+## License
+
+This project is licensed under the [GNU V3 License](LICENSE).
