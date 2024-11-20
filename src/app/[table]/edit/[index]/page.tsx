@@ -55,9 +55,8 @@ export default function EditRowForm() {
                 return;
             }
 
-            console.log('Submitting updated data:', formData);
-
             await axios.put(`/api/${table}`, formData);
+
             router.push(`/${table}`);
         } catch (err) {
             console.error('Error updating row:', err);
