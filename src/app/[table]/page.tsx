@@ -3,35 +3,36 @@ import TableView from './_components/TableView';
 
 // List of valid table names
 const validTables = [
-    'Advisor',
-    'Antireq',
-    'Completed',
-    'Course',
-    'Department',
-    'Dropped',
-    'Enrolled',
-    'Faculty',
-    'Instructor',
-    'Lab',
-    'LabTA',
-    'Lecture',
-    'Major',
-    'Prereq',
-    'Section',
-    'Semesters',
-    'ShoppingCart',
-    'Student',
-    'TA',
-    'Teaches',
-    'Waitlist',
-    'Waitlisted',
+    'advisor',
+    'antireq',
+    'completed',
+    'course',
+    'department',
+    'dropped',
+    'enrolled',
+    'faculty',
+    'instructor',
+    'lab',
+    'labta',
+    'lecture',
+    'major',
+    'prereq',
+    'section',
+    'semesters',
+    'shoppingcart',
+    'student',
+    'ta',
+    'teaches',
+    'waitlist',
+    'waitlisted',
 ];
 
 interface PageProps {
-    params: { table: string };
+    params: Promise<{ table: string }>;
 }
 
-export default async function TablePage({ params }: PageProps) {
+export default async function TablePage(props: PageProps) {
+    const params = await props.params;
     const { table } = params;
 
     // Validate the table name

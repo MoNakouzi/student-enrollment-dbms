@@ -26,7 +26,6 @@ export async function getOracleConnection(): Promise<oracledb.Connection> {
         }
 
         const connection = await oracledb.getConnection(config);
-        console.log('Successfully connected to Oracle DB');
         return connection;
     }
     catch (error) {
