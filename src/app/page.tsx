@@ -12,7 +12,7 @@ import axios from 'axios';
 export default function HomePage() {
     const router = useRouter();
     const [query, setQuery] = useState('');
-    const [queryResult, setQueryResult] = useState<string | null>(null);
+    const [queryResult, setQueryResult] = useState<any[] | string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
@@ -49,7 +49,7 @@ export default function HomePage() {
         try {
             const response = await axios.post('/api/execute-query', { query });
             if (response.data.success) {
-                setQueryResult(JSON.stringify(response.data.result, null, 2));
+                setQueryResult(response.data.data || 'Query executed successfully.');
             } else {
                 setError(response.data.error || 'Failed to execute query.');
             }
@@ -145,10 +145,34 @@ export default function HomePage() {
                 </button>
                 {loading && <p className="text-gray-500 mt-4">Executing query...</p>}
                 {error && <p className="text-red-500 mt-4">{error}</p>}
-                {queryResult && (
-                    <pre className="mt-4 p-4 bg-gray-100 border border-gray-300 rounded text-sm overflow-x-auto">
-                        {queryResult}
-                    </pre>
+                {Array.isArray(queryResult) && queryResult.length > 0 && (
+                    <div className="mt-4 overflow-x-auto">
+                        <table className="w-full border border-gray-300 text-sm">
+                            <thead>
+                                <tr className="bg-gray-200">
+                                    {Object.keys(queryResult[0]).map((key) => (
+                                        <th key={key} className="border px-4 py-2 text-left">
+                                            {key}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {queryResult.map((row, index) => (
+                                    <tr key={index}>
+                                        {Object.values(row).map((value, i) => (
+                                            <td key={i} className="border px-4 py-2">
+                                                {value as React.ReactNode}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+                {typeof queryResult === 'string' && !Array.isArray(queryResult) && (
+                    <p className="mt-4">{queryResult}</p>
                 )}
             </section>
         </div>
