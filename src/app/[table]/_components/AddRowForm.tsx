@@ -1,19 +1,40 @@
+// Authors: CPS 510 Group 13
+// Member 1: Mo Nakouzi
+// Member 2: Prachi Patel
+// Member 3: Mark Paul
+
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-interface AddRowFormProps {
-    table: string; // Table name from the dynamic route
-    columnNames: string[]; // Array of column names for the table
-}
-
-export default function AddRowForm({ table, columnNames }: AddRowFormProps) {
+export default function AddRowForm({ table }: { table: string }) {
     const [formData, setFormData] = useState<{ [key: string]: any }>({});
+    const [columns, setColumns] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+
+    // Fetch column names for the table
+    useEffect(() => {
+        const fetchColumns = async () => {
+            try {
+                const response = await axios.get(`/api/${table}/metadata`);
+                if (response.data.success) {
+                    console.log(response.data.columns);
+                    setColumns(response.data.columns);
+                } else {
+                    setError('Failed to fetch column data');
+                }
+            } catch (err) {
+                console.error("Error fetching columns:", err);
+                setError("Failed to fetch column metadata.");
+            }
+        };
+
+        fetchColumns();
+    }, [table]);
 
     // Handle form input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,15 +59,23 @@ export default function AddRowForm({ table, columnNames }: AddRowFormProps) {
         }
     };
 
+    if (error) {
+        return <p className="text-red-500">{error}</p>;
+    }
+
+    if (!columns.length) {
+        return <p>Loading form...</p>;
+    }
+
     return (
-        <div className="p-6">
+        <div className="p-6 w-full lg:w-2/3 mx-auto">
             <h1 className="text-2xl font-bold mb-4">Add New Row to {table}</h1>
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <form onSubmit={handleSubmit} className="space-y-4">
-                {columnNames.map((column) => (
+                {columns.map((column) => (
                     <div key={column} className="flex flex-col">
                         <label htmlFor={column} className="font-semibold mb-1">
-                            {column}
+                            {column.replace(/_/g, " ")}
                         </label>
                         <input
                             type="text"

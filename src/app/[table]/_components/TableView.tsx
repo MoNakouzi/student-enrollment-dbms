@@ -1,8 +1,14 @@
+// Authors: CPS 510 Group 13
+// Member 1: Mo Nakouzi
+// Member 2: Prachi Patel
+// Member 3: Mark Paul
+
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import DeleteConfirmation from './DeleteConfirmation';
 
 interface TableViewProps {
     table: string; // Table name from the dynamic route
@@ -16,6 +22,7 @@ export default function TableView({ table }: TableViewProps) {
     const [data, setData] = useState<TableRow[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [deleteRowData, setDeleteRowData] = useState<TableRow | null>(null);
     const router = useRouter();
 
     const fetchData = async () => {
@@ -39,16 +46,17 @@ export default function TableView({ table }: TableViewProps) {
         fetchData();
     }, [table]);
 
-    const handleDelete = async (row: TableRow) => {
-        if (!confirm('Are you sure you want to delete this row?')) return;
+    const handleAdd = () => {
+        router.push(`/${table}/add`);
+    };
 
-        try {
-            await axios.delete(`/api/${table}`, { data: row });
-            fetchData();
-        } catch (err) {
-            console.error('Error deleting row:', err);
-            setError('Failed to delete row');
-        }
+    const handleBack = () => {
+        router.push(`/`);
+    };
+
+    const handleDeleteSuccess = () => {
+        fetchData(); // Refresh data after successful deletion
+        setDeleteRowData(null); // Close the delete confirmation modal
     };
 
     if (loading) return <p>Loading...</p>;
@@ -57,6 +65,21 @@ export default function TableView({ table }: TableViewProps) {
     return (
         <div className="p-6">
             <h1 className="text-3xl font-bold mb-4 text-gray-700">{table.toUpperCase()} Table</h1>
+            <div className='space-x-2'>
+                <button
+                    onClick={handleAdd}
+                    className="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                >
+                    Add Row
+                </button>
+                <button
+                    onClick={handleBack}
+                    className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                    Go Back
+                </button>
+            </div>
+
             <table className="table-auto border-collapse border border-gray-400 w-full text-sm">
                 <thead>
                     <tr className="bg-gray-200">
@@ -84,7 +107,7 @@ export default function TableView({ table }: TableViewProps) {
                                     Edit
                                 </button>
                                 <button
-                                    onClick={() => handleDelete(row)}
+                                    onClick={() => setDeleteRowData(row)}
                                     className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 shadow-sm"
                                 >
                                     Delete
@@ -94,6 +117,14 @@ export default function TableView({ table }: TableViewProps) {
                     ))}
                 </tbody>
             </table>
+            {deleteRowData && (
+                <DeleteConfirmation
+                    table={table}
+                    rowData={deleteRowData}
+                    onDeleteSuccess={handleDeleteSuccess}
+                    onClose={() => setDeleteRowData(null)}
+                />
+            )}
         </div>
     );
 }

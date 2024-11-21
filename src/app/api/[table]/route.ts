@@ -57,6 +57,7 @@ export async function POST(req: NextRequest, { params }: { params: { table: stri
 
         const connection = await getOracleConnection();
 
+        console.log('Inserting data:', body);
         await connection.execute(queries[table].insert, body, { autoCommit: true });
 
         await connection.close();
@@ -119,7 +120,18 @@ export async function DELETE(req: NextRequest, { params }: { params: { table: st
 
         const connection = await getOracleConnection();
 
-        await connection.execute(queries[table].delete, body, { autoCommit: true });
+        // Extract the keys from the provided data
+        const keys = queries[table].keys;
+        const bindParams: { [key: string]: any } = {};
+        keys.forEach((key: string) => {
+            bindParams[key] = body[key];
+        });
+
+        // Construct the delete query dynamically
+        const whereClause = keys.map((key: string) => `${key} = :${key}`).join(' AND ');
+        const deleteQuery = `DELETE FROM ${table} WHERE ${whereClause}`;
+
+        await connection.execute(deleteQuery, bindParams, { autoCommit: true });
 
         await connection.close();
 

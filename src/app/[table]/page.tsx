@@ -1,3 +1,8 @@
+// Authors: CPS 510 Group 13
+// Member 1: Mo Nakouzi
+// Member 2: Prachi Patel
+// Member 3: Mark Paul
+
 import { notFound } from 'next/navigation';
 import TableView from './_components/TableView';
 

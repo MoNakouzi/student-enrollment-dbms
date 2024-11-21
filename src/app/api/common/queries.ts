@@ -1,9 +1,10 @@
 /**
- * SQL queries for all 22 tables.
+ * SQL queries for all 22 tables with keys added.
  */
 
 // Advisor queries
 export const advisorQueries = {
+    keys: ['ADVISOR_ID'],
     selectAll: 'SELECT * FROM Advisor',
     selectById: 'SELECT * FROM Advisor WHERE advisor_id = :advisor_id',
     insert: 'INSERT INTO Advisor (advisor_id, first_name, last_name, room, email, faculty_id) VALUES (:advisor_id, :first_name, :last_name, :room, :email, :faculty_id)',
@@ -13,6 +14,7 @@ export const advisorQueries = {
 
 // Antireq queries
 export const antireqQueries = {
+    keys: ['COURSE_ID', 'ANTIREQ_ID'],
     selectAll: 'SELECT * FROM Antireq',
     insert: 'INSERT INTO Antireq (course_id, antireq_id) VALUES (:course_id, :antireq_id)',
     update: 'UPDATE Antireq SET antireq_id = :antireq_id WHERE course_id = :course_id',
@@ -21,6 +23,7 @@ export const antireqQueries = {
 
 // Completed queries
 export const completedQueries = {
+    keys: ['STUDENT_ID', 'COURSE_ID'],
     selectAll: 'SELECT * FROM Completed',
     insert: 'INSERT INTO Completed (student_id, course_id, gpa) VALUES (:student_id, :course_id, :gpa)',
     update: 'UPDATE Completed SET gpa = :gpa WHERE student_id = :student_id AND course_id = :course_id',
@@ -29,6 +32,7 @@ export const completedQueries = {
 
 // Course queries
 export const courseQueries = {
+    keys: ['COURSE_ID'],
     selectAll: 'SELECT * FROM Course',
     selectById: 'SELECT * FROM Course WHERE course_id = :course_id',
     insert: 'INSERT INTO Course (course_id, title, description, course_code, course_no, weight, weekly_contact, department_id) VALUES (:course_id, :title, :description, :course_code, :course_no, :weight, :weekly_contact, :department_id)',
@@ -38,6 +42,7 @@ export const courseQueries = {
 
 // Department queries
 export const departmentQueries = {
+    keys: ['DEPARTMENT_ID'],
     selectAll: 'SELECT * FROM Department',
     selectById: 'SELECT * FROM Department WHERE department_id = :department_id',
     insert: 'INSERT INTO Department (department_id, name, email, faculty_id) VALUES (:department_id, :name, :email, :faculty_id)',
@@ -47,6 +52,7 @@ export const departmentQueries = {
 
 // Dropped queries
 export const droppedQueries = {
+    keys: ['STUDENT_ID', 'COURSE_ID'],
     selectAll: 'SELECT * FROM Dropped',
     insert: 'INSERT INTO Dropped (student_id, course_id) VALUES (:student_id, :course_id)',
     update: 'UPDATE Dropped SET course_id = :course_id WHERE student_id = :student_id',
@@ -55,6 +61,7 @@ export const droppedQueries = {
 
 // Enrolled queries
 export const enrolledQueries = {
+    keys: ['STUDENT_ID', 'COURSE_ID', 'SECTION_NO'],
     selectAll: 'SELECT * FROM Enrolled',
     insert: 'INSERT INTO Enrolled (student_id, course_id, section_no) VALUES (:student_id, :course_id, :section_no)',
     update: 'UPDATE Enrolled SET section_no = :section_no WHERE student_id = :student_id AND course_id = :course_id',
@@ -63,6 +70,7 @@ export const enrolledQueries = {
 
 // Faculty queries
 export const facultyQueries = {
+    keys: ['FACULTY_ID'],
     selectAll: 'SELECT * FROM Faculty',
     insert: 'INSERT INTO Faculty (faculty_id, email, name) VALUES (:faculty_id, :email, :name)',
     update: 'UPDATE Faculty SET email = :email, name = :name WHERE faculty_id = :faculty_id',
@@ -71,6 +79,7 @@ export const facultyQueries = {
 
 // Instructor queries
 export const instructorQueries = {
+    keys: ['INSTRUCTOR_ID'],
     selectAll: 'SELECT * FROM Instructor',
     selectById: 'SELECT * FROM Instructor WHERE instructor_id = :instructor_id',
     insert: 'INSERT INTO Instructor (instructor_id, first_name, last_name, email, specialization, yearly_course_quota, department_id) VALUES (:instructor_id, :first_name, :last_name, :email, :specialization, :yearly_course_quota, :department_id)',
@@ -80,6 +89,7 @@ export const instructorQueries = {
 
 // Lab queries
 export const labQueries = {
+    keys: ['COURSE_ID', 'SECTION_NO', 'WEEKDAY', 'START_TIME'],
     selectAll: 'SELECT * FROM Lab',
     insert: 'INSERT INTO Lab (weekday, start_time, end_time, room, course_id, section_no) VALUES (:weekday, :start_time, :end_time, :room, :course_id, :section_no)',
     update: 'UPDATE Lab SET end_time = :end_time, room = :room WHERE course_id = :course_id AND section_no = :section_no AND weekday = :weekday AND start_time = :start_time',
@@ -88,6 +98,7 @@ export const labQueries = {
 
 // LabTA queries
 export const labTAQueries = {
+    keys: ['COURSE_ID', 'SECTION_NO', 'TA_ID'],
     selectAll: 'SELECT * FROM LabTA',
     insert: 'INSERT INTO LabTA (course_id, section_no, ta_id) VALUES (:course_id, :section_no, :ta_id)',
     update: 'UPDATE LabTA SET ta_id = :ta_id WHERE course_id = :course_id AND section_no = :section_no',
@@ -96,6 +107,7 @@ export const labTAQueries = {
 
 // Lecture queries
 export const lectureQueries = {
+    keys: ['COURSE_ID', 'SECTION_NO', 'WEEKDAY', 'START_TIME'],
     selectAll: 'SELECT * FROM Lecture',
     insert: 'INSERT INTO Lecture (weekday, start_time, end_time, room, course_id, section_no) VALUES (:weekday, :start_time, :end_time, :room, :course_id, :section_no)',
     update: 'UPDATE Lecture SET end_time = :end_time, room = :room WHERE course_id = :course_id AND section_no = :section_no AND weekday = :weekday AND start_time = :start_time',
@@ -104,6 +116,7 @@ export const lectureQueries = {
 
 // Major queries
 export const majorQueries = {
+    keys: ['MAJOR_ID'],
     selectAll: 'SELECT * FROM Major',
     insert: 'INSERT INTO Major (major_id, name, department_id) VALUES (:major_id, :name, :department_id)',
     update: 'UPDATE Major SET name = :name, department_id = :department_id WHERE major_id = :major_id',
@@ -112,6 +125,7 @@ export const majorQueries = {
 
 // Prereq queries
 export const prereqQueries = {
+    keys: ['COURSE_ID', 'PREREQ_ID'],
     selectAll: 'SELECT * FROM Prereq',
     insert: 'INSERT INTO Prereq (course_id, prereq_id) VALUES (:course_id, :prereq_id)',
     update: 'UPDATE Prereq SET prereq_id = :prereq_id WHERE course_id = :course_id',
@@ -120,6 +134,7 @@ export const prereqQueries = {
 
 // Section queries
 export const sectionQueries = {
+    keys: ['COURSE_ID', 'SECTION_NO'],
     selectAll: 'SELECT * FROM Section',
     selectById: 'SELECT * FROM Section WHERE course_id = :course_id AND section_no = :section_no',
     insert: 'INSERT INTO Section (section_no, capacity, section_status, waitlistable, current_size, course_id, instructor_id) VALUES (:section_no, :capacity, :section_status, :waitlistable, :current_size, :course_id, :instructor_id)',
@@ -129,6 +144,7 @@ export const sectionQueries = {
 
 // Semesters queries
 export const semestersQueries = {
+    keys: ['COURSE_ID', 'SEMESTER_OFFERED'],
     selectAll: 'SELECT * FROM Semesters',
     insert: 'INSERT INTO Semesters (course_id, semester_offered) VALUES (:course_id, :semester_offered)',
     update: 'UPDATE Semesters SET semester_offered = :semester_offered WHERE course_id = :course_id',
@@ -137,6 +153,7 @@ export const semestersQueries = {
 
 // ShoppingCart queries
 export const shoppingCartQueries = {
+    keys: ['STUDENT_ID', 'COURSE_ID'],
     selectAll: 'SELECT * FROM ShoppingCart',
     insert: 'INSERT INTO ShoppingCart (student_id, course_id) VALUES (:student_id, :course_id)',
     update: 'UPDATE ShoppingCart SET course_id = :course_id WHERE student_id = :student_id',
@@ -145,6 +162,7 @@ export const shoppingCartQueries = {
 
 // Student queries
 export const studentQueries = {
+    keys: ['STUDENT_ID'],
     selectAll: 'SELECT * FROM Student',
     selectById: 'SELECT * FROM Student WHERE student_id = :student_id',
     insert: 'INSERT INTO Student (student_id, first_name, last_name, email, outstanding_fees, academic_standing, current_year, cgpa, credits_earned, major_id) VALUES (:student_id, :first_name, :last_name, :email, :outstanding_fees, :academic_standing, :current_year, :cgpa, :credits_earned, :major_id)',
@@ -154,6 +172,7 @@ export const studentQueries = {
 
 // TA queries
 export const taQueries = {
+    keys: ['TA_ID'],
     selectAll: 'SELECT * FROM TA',
     insert: 'INSERT INTO TA (ta_id, first_name, last_name, email, instructor_id) VALUES (:ta_id, :first_name, :last_name, :email, :instructor_id)',
     update: 'UPDATE TA SET first_name = :first_name, last_name = :last_name, email = :email, instructor_id = :instructor_id WHERE ta_id = :ta_id',
@@ -162,6 +181,7 @@ export const taQueries = {
 
 // Teaches queries
 export const teachesQueries = {
+    keys: ['COURSE_ID', 'INSTRUCTOR_ID'],
     selectAll: 'SELECT * FROM Teaches',
     insert: 'INSERT INTO Teaches (course_id, instructor_id) VALUES (:course_id, :instructor_id)',
     update: 'UPDATE Teaches SET instructor_id = :instructor_id WHERE course_id = :course_id',
@@ -170,6 +190,7 @@ export const teachesQueries = {
 
 // Waitlist queries
 export const waitlistQueries = {
+    keys: ['COURSE_ID', 'SECTION_NO'],
     selectAll: 'SELECT * FROM Waitlist',
     insert: 'INSERT INTO Waitlist (course_id, section_no, capacity, current_size) VALUES (:course_id, :section_no, :capacity, :current_size)',
     update: 'UPDATE Waitlist SET capacity = :capacity, current_size = :current_size WHERE course_id = :course_id AND section_no = :section_no',
@@ -178,9 +199,10 @@ export const waitlistQueries = {
 
 // Waitlisted queries
 export const waitlistedQueries = {
+    keys: ['STUDENT_ID', 'COURSE_ID', 'SECTION_NO'],
     selectAll: 'SELECT * FROM Waitlisted',
     insert: 'INSERT INTO Waitlisted (student_id, course_id, section_no) VALUES (:student_id, :course_id, :section_no)',
-    update : 'UPDATE Waitlisted SET course_id = :course_id, section_no = :section_no WHERE student_id = :student_id',
+    update: 'UPDATE Waitlisted SET course_id = :course_id, section_no = :section_no WHERE student_id = :student_id',
     delete: 'DELETE FROM Waitlisted WHERE student_id = :student_id AND course_id = :course_id AND section_no = :section_no',
 };
 
