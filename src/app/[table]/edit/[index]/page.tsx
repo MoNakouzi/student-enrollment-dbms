@@ -73,29 +73,33 @@ export default function EditRowForm() {
     if (error) return <p className="text-red-500">{error}</p>;
 
     return (
-        <form onSubmit={handleSubmit} className="p-6 space-y-4 max-w-md mx-auto">
-            {formData &&
-                Object.entries(formData).map(([key, value]) => (
-                    <div key={key} className="flex flex-col">
-                        <label htmlFor={key} className="text-gray-600">
-                            {key}
-                        </label>
-                        <input
-                            type="text"
-                            id={key}
-                            name={key}
-                            value={value || ''}
-                            onChange={handleChange}
-                            className="border rounded px-2 py-1"
-                        />
-                    </div>
-                ))}
-            <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-                Update
-            </button>
-        </form>
+        <>
+            <h1 className="text-3xl font-bold text-center">{table} - Edit Row</h1>
+            <p className="text-center text-xl font-bold my-4">Note: Primary Keys cannot be updated, do NOT try to edit them!!</p>
+            <form onSubmit={handleSubmit} className="p-6 space-y-4 max-w-md mx-auto">
+                {formData &&
+                    Object.entries(formData).map(([key, value]) => (
+                        <div key={key} className="flex flex-col">
+                            <label htmlFor={key} className="text-gray-600">
+                                {key}
+                            </label>
+                            <input
+                                type="text"
+                                id={key}
+                                name={key}
+                                value={value || ''}
+                                onChange={handleChange}
+                                className="border rounded px-2 py-1"
+                            />
+                        </div>
+                    ))}
+                <button
+                    type="submit"
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                    Update
+                </button>
+            </form>
+        </>
     );
 }
