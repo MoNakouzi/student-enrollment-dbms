@@ -50,6 +50,7 @@ const populateTableQueries: string[] = [
     `INSERT INTO Major (major_id, name, department_id) VALUES (1, 'Biology', 1)`,
     `INSERT INTO Major (major_id, name, department_id) VALUES (2, 'Biomedical Sciences', 1)`,
     `INSERT INTO Major (major_id, name, department_id) VALUES (3, 'Chemistry', 1)`,
+    `INSERT INTO Major (major_id, name, department_id) VALUES (4, 'Computer Science', 2)`,
     `INSERT INTO Major (major_id, name, department_id) VALUES (5, 'Financial Mathematics', 3)`,
     `INSERT INTO Major (major_id, name, department_id) VALUES (6, 'Mathematics and its Applications', 3)`,
     `INSERT INTO Major (major_id, name, department_id) VALUES (7, 'Medical Physics', 4)`,
